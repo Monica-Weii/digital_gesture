@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monica的AI探索</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 800px;
+        }
+        
+        h1 {
+            color: #00ffff;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        .subtitle {
+            color: #8080a0;
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 255, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 255, 255, 0.2);
+        }
+        
+        .card-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            color: #ff66cc;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .card-desc {
+            color: #a0a0c0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .footer {
+            margin-top: 60px;
+            color: #606080;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Monica的AI探索</h1>
+        <p class="subtitle">从概念到实践 · 从技术到产品</p>
+        
+        <div class="cards">
+            <a href="AI产品分享.html" class="card">
+                <div class="card-icon">📊</div>
+                <div class="card-title">AI产品分享</div>
+                <div class="card-desc">AI发展阶段、核心概念、Vibe Coding实践探索</div>
+            </a>
+            
+            <a href="nebula.html" class="card">
+                <div class="card-icon">🌌</div>
+                <div class="card-title">宇宙星云系统</div>
+                <div class="card-desc">12万+粒子的顶级星空效果，手势交互体验</div>
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p>✨ 用AI创造有温度的产品</p>
+        </div>
+    </div>
+</body>
+</html>

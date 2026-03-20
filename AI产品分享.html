@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI产品探索分享 - 从概念到实践 · 从技术到产品</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a1a2a 100%);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 25px rgba(100, 216, 255, 0.25); }
+            50% { box-shadow: 0 0 50px rgba(100, 216, 255, 0.5); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .title {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #64d8ff 0%, #a855f7 50%, #f472b6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 25px;
+            animation: float 4s ease-in-out infinite;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.6rem;
+            color: #a0a0c0;
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 400;
+        }
+
+        .section-title {
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: #64d8ff;
+            margin-bottom: 45px;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: #8080a0;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            max-width: 1300px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(100, 216, 255, 0.15);
+            border-radius: 20px;
+            padding: 35px;
+            backdrop-filter: blur(15px);
+            animation: glow 4s ease-in-out infinite;
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(100, 216, 255, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f472b6;
+            margin-bottom: 18px;
+        }
+
+        .card-content {
+            color: #c0c0e0;
+            line-height: 1.9;
+            font-size: 1.05rem;
+        }
+
+        .big-quote {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #a855f7;
+            text-align: center;
+            max-width: 1100px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
+        .boss-employee {
+            display: flex;
+            gap: 80px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .role {
+            text-align: center;
+        }
+
+        .role-icon {
+            font-size: 6rem;
+            margin-bottom: 25px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .role-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #64d8ff;
+            margin-bottom: 12px;
+        }
+
+        .role-desc {
+            color: #a0a0c0;
+            font-size: 1.15rem;
+            line-height: 1.7;
+        }
+
+        .arrow {
+            font-size: 3.5rem;
+            color: #a855f7;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            max-width: 950px;
+            width: 100%;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border-left: 5px solid #f472b6;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .timeline-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #a855f7;
+            min-width: 70px;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .timeline-desc {
+            color: #a0a0c0;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 18px;
+            z-index: 1000;
+        }
+
+        .nav-button {
+            background: rgba(100, 216, 255, 0.15);
+            border: 2px solid #64d8ff;
+            color: white;
+            padding: 18px 38px;
+            border-radius: 35px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover {
+            background: #64d8ff;
+            color: #0a0a1a;
+            transform: scale(1.08);
+        }
+
+        .slide-indicator {
+            position: fixed;
+            top: 35px;
+            right: 35px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1.05rem;
+            color: #64d8ff;
+            font-weight: 600;
+        }
+
+        .emoji {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            animation: float 3.5s ease-in-out infinite;
+        }
+
+        .word-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            justify-content: center;
+            max-width: 1100px;
+        }
+
+        .word-item {
+            background: linear-gradient(135deg, #64d8ff 0%, #a855f7 100%);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            animation: float 2.5s ease-in-out infinite;
+        }
+
+        .word-item:nth-child(2n) {
+            animation-delay: 0.4s;
+        }
+
+        .word-item:nth-child(3n) {
+            animation-delay: 0.8s;
+        }
+
+        .highlight-box {
+            background: rgba(168, 85, 247, 0.15);
+            border: 2px solid #a855f7;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 950px;
+            text-align: center;
+        }
+
+        .highlight-text {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #f472b6;
+            line-height: 1.7;
+        }
+
+        .highlight {
+            color: #64d8ff;
+            font-weight: 700;
+        }
+
+        .methodology {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 35px;
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .method-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(100, 216, 255, 0.2);
+            border-radius: 20px;
+            padding: 35px;
+            transition: transform 0.3s;
+        }
+
+        .method-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .method-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #f472b6;
+            margin-bottom: 12px;
+        }
+
+        .method-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .method-desc {
+            color: #a0a0c0;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .iteration-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid #f472b6;
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            max-width: 850px;
+            width: 100%;
+        }
+
+        .iteration-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #64d8ff;
+            margin-bottom: 18px;
+        }
+
+        .iteration-desc {
+            color: #c0c0e0;
+            line-height: 1.9;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: 封面 -->
+        <div class="slide active" data-slide="1">
+            <div class="emoji">🚀</div>
+            <h1 class="title">AI产品探索分享</h1>
+            <p class="subtitle">从概念到实践 · 从技术到产品</p>
+            <p style="color: #8080a0; font-size: 1.2rem; margin-top: 50px;">—— Monica的AI探索之旅</p>
+        </div>
+
+        <!-- Slide 2: 第一部分：概念篇 - 开场 -->
+        <div class="slide" data-slide="2">
+            <h2 class="section-title">🔍 第一部分：概念篇</h2>
+            <p class="section-subtitle">最近各种AI新词层出不穷，这些东西到底是什么？</p>
+            <div class="word-cloud">
+                <div class="word-item">LLM</div>
+                <div class="word-item">Agent</div>
+                <div class="word-item">RAG</div>
+                <div class="word-item">Skill</div>
+                <div class="word-item">MCP</div>
+                <div class="word-item">Function Calling</div>
+                <div class="word-item">LangChain</div>
+                <div class="word-item">Workflow</div>
+                <div class="word-item">Prompt</div>
+                <div class="word-item">Context</div>
+                <div class="word-item">Memory</div>
+                <div class="word-item">Sub Agent</div>
+                <div class="word-item">Vibe Coding</div>
+                <div class="word-item">OpenClaw</div>
+            </div>
+            <div class="big-quote" style="margin-top: 50px;">
+                让我们从非技术人员的视角，<br>
+                按照时间顺序，逐个理解每一个知识点！
+            </div>
+        </div>
+
+        <!-- Slide 3: 一切的起点：LLM是怎么来的 -->
+        <div class="slide" data-slide="3">
+            <h2 class="section-title">1️⃣ 一切的起点：LLM是怎么来的</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-number">1</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">古老的语言模型</div>
+                        <div class="timeline-desc">一开始还是个智障，只会简单的文字接龙</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">2</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">参数越来越大</div>
+                        <div class="timeline-desc">在某个临界点，居然涌现出了智能！</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">3</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">大语言模型（LLM）</div>
+                        <div class="timeline-desc">为了和之前的智障模型区分，加了个"大"字</div>
+                    </div>
+                </div>
+            </div>
+            <div class="big-quote" style="margin-top: 35px;">
+                🎊 恭喜你！发明了第一个词：<span class="highlight">LLM（大语言模型）</span>
+            </div>
+        </div>
+
+        <!-- Slide 4: 老板和员工 -->
+        <div class="slide" data-slide="4">
+            <h2 class="section-title">2️⃣ 老板-员工视角</h2>
+            <p class="section-subtitle">现在，请把自己想象成老板，大模型是你的员工</p>
+            <div class="boss-employee">
+                <div class="role">
+                    <div class="role-icon">👨‍💼</div>
+                    <div class="role-title">你（老板）</div>
+                    <div class="role-desc">提需求、做决策</div>
+                </div>
+                <div class="arrow">→</div>
+                <div class="role">
+                    <div class="role-icon">🤖</div>
+                    <div class="role-title">小L（员工）</div>
+                    <div class="role-desc">只会文字接龙<br>一问一答就结束</div>
+                </div>
+            </div>
+            <div class="big-quote" style="margin-top: 50px;">
+                "接下来的任务就是你要想尽办法<br>压榨这个只会一问一答的小L"
+            </div>
+        </div>
+
+        <!-- Slide 5: 概念发明1-4 -->
+        <div class="slide" data-slide="5">
+            <h2 class="section-title">3️⃣ 恭喜你！已经发明了4个新词！</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-number">1</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Prompt</div>
+                        <div class="timeline-desc">你每次和小L对话的洋气名字</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">2</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Context（上下文）</div>
+                        <div class="timeline-desc">背景信息的部分，单独起个名</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">3</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Memory（记忆）</div>
+                        <div class="timeline-desc">把之前的对话历史放到context里，伪装成多人对话</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">4</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">对话能力</div>
+                        <div class="timeline-desc">原本只会文字接龙的小L，现在可以不断追问了！</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Agent的诞生 -->
+        <div class="slide" data-slide="6">
+            <h2 class="section-title">4️⃣ 问题来了：小L不会上网怎么办？</h2>
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-title">笨办法</div>
+                    <div class="card-content">
+                        "小L，你要查资料就告诉我"<br>
+                        你查完再给它<br>
+                        <span class="highlight">但这样显得你有点蠢</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">聪明办法</div>
+                    <div class="card-content">
+                        写个程序代理你和小L沟通<br>
+                        让这个程序去完成搜索任务<br>
+                        <span class="highlight">外人看来，这个程序似乎拥有了智能！</span>
+                    </div>
+                </div>
+            </div>
+            <div class="big-quote" style="margin-top: 40px;">
+                🎊 恭喜你！又发明了一个词：<span class="highlight">Agent（智能体）</span>
+            </div>
+        </div>
+
+        <!-- Slide 7: Agent的真相 -->
+        <div class="slide" data-slide="7">
+            <h2 class="section-title">5️⃣ 所谓智能体，其实就是...</h2>
+            <div class="highlight-box">
+                <div class="highlight-text">
+                    "智能体就是所有不需要智能的部分构成的部分"
+                </div>
+            </div>
+            <div class="content-grid" style="margin-top: 40px;">
+                <div class="card">
+                    <div class="card-title">模糊的部分 → 大模型</div>
+                    <div class="card-content">
+                        根据语义识别用户想做A还是B<br>
+                        需要理解、推理的部分
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">确定的部分 → 程序</div>
+                    <div class="card-content">
+                        PDF提取文本、调用API、保存文件<br>
+                        所有能用固定程序解决的部分
+                    </div>
+                </div>
+            </div>
+            <p class="subtitle" style="margin-top: 30px;">目标：节省人类时间，降低使用门槛</p>
+        </div>
+
+        <!-- Slide 8: 继续造孽！又发明了几个词 -->
+        <div class="slide" data-slide="8">
+            <h2 class="section-title">6️⃣ 继续造孽！又发明了几个词</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-number">5</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">RAG（检索增强生成）</div>
+                        <div class="timeline-desc">用向量数据库搜索本地文档，把语义相近的片段塞进上下文</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">6</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Function Calling</div>
+                        <div class="timeline-desc">Agent和大模型之间约定的对话格式（比如JSON），方便程序解析</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">7</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">MCP（模型上下文协议）</div>
+                        <div class="timeline-desc">Agent和工具服务之间调用的约定，就像接口文档</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: 还不够？再来3个！ -->
+        <div class="slide" data-slide="9">
+            <h2 class="section-title">7️⃣ 还不够？再来3个！</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-number">8</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">LangChain</div>
+                        <div class="timeline-desc">
+                            <span class="highlight">给程序员用的"乐高积木"工具包</span><br>
+                            比如：先搜索资料→再总结→最后写邮件<br>
+                            LangChain帮你把这些步骤串起来
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">9</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Workflow（工作流）</div>
+                        <div class="timeline-desc">
+                            <span class="highlight">给产品经理用的"画图工具"</span><br>
+                            不用写代码，拖拽方块连连线<br>
+                            就能把"搜索→总结→写邮件"的流程画出来
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">10</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Skill（技能）</div>
+                        <div class="timeline-desc">
+                            <span class="highlight">说白了就是个prompt加载器</span><br>
+                            把提示词换了个地方存起来，但还是得起个新名字
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Sub Agent -->
+        <div class="slide" data-slide="10">
+            <h2 class="section-title">8️⃣ Sub Agent</h2>
+            <div class="highlight-box">
+                <div class="highlight-text">
+                    Sub Agent就是Agent的"下属"
+                </div>
+            </div>
+            <div class="content-grid" style="margin-top: 40px;">
+                <div class="card">
+                    <div class="card-title">为什么需要？</div>
+                    <div class="card-content">
+                        主Agent负责决策<br>
+                        Sub Agent负责执行具体任务<br>
+                        <span class="highlight">分工协作，效率更高</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">类比理解</div>
+                    <div class="card-content">
+                        主Agent = 项目经理<br>
+                        Sub Agent = 开发、设计、测试<br>
+                        <span class="highlight">各司其职，各展所长</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: 最后两个：Vibe Coding & OpenClaw -->
+        <div class="slide" data-slide="11">
+            <h2 class="section-title">9️⃣ 最后两个：Vibe Coding & OpenClaw</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-number">11</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Vibe Coding</div>
+                        <div class="timeline-desc">
+                            <span class="highlight">用自然语言描述你的想法，AI直接写代码</span><br>
+                            不需要懂技术细节，只需要说清楚你要什么<br>
+                            比如："给我做一个12万粒子的宇宙星云系统"
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">12</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">OpenClaw</div>
+                        <div class="timeline-desc">
+                            <span class="highlight">AI直接接管你的电脑，帮你完成操作</span><br>
+                            就像有个助手坐在你旁边<br>
+                            帮你打开软件、填写表格、复制粘贴...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: 第二部分：方法论篇 -->
+        <div class="slide" data-slide="12">
+            <h2 class="section-title">💡 第二部分：方法论篇</h2>
+            <p class="section-subtitle">将来如果出现新的知识点，怎么理解？</p>
+            <div class="methodology">
+                <div class="method-card">
+                    <div class="method-number">1</div>
+                    <div class="method-title">老板-员工视角</div>
+                    <div class="method-desc">你是老板，大模型是员工，思考怎么派活</div>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">2</div>
+                    <div class="method-title">中间产物</div>
+                    <div class="method-desc">把概念都当成中间产物，不用焦虑</div>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">3</div>
+                    <div class="method-title">本质视角</div>
+                    <div class="method-desc">
+                        从最本质的角度看：<br>
+                        所有这些技术，最终还是离不开<span class="highlight">大模型和提示词</span><br><br>
+                        方向1：增加上下文（Search、RAG、Skill...）<br>
+                        方向2：减少沟通（通过代理的形式，减少你和大模型直接沟通的次数）
+                    </div>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">4</div>
+                    <div class="method-title">实践验证</div>
+                    <div class="method-desc">动手做，用AI快速验证你的想法</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: AI产品经理的核心能力 -->
+        <div class="slide" data-slide="13">
+            <h2 class="section-title">💡 AI产品经理的核心能力</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-number">Q1</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">AI产品经理需要懂技术吗？</div>
+                        <div class="timeline-desc">不需要精通技术，但需要理解技术的能力边界</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">Q2</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">需要学很多新框架吗？</div>
+                        <div class="timeline-desc">不需要，理解本质更重要。工具只是载体，随时可能变</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">A</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">AI产品经理的核心能力</div>
+                        <div class="timeline-desc">
+                            1. 理解大模型的能力边界<br>
+                            2. 不被新概念吓到，先在小场景探索<br>
+                            3. 保持好奇心，将AI能力应用到真实场景、生产提效
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: 第三部分：实践篇 -->
+        <div class="slide" data-slide="14">
+            <h2 class="section-title">🎯 第三部分：实践篇</h2>
+            <p class="section-subtitle">概念讲完了，来看看我的两个小实践！</p>
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-title">📖 实践一：答案之书</div>
+                    <div class="card-content">
+                        逛书店时看到答案之书<br>
+                        觉得没必要买但蛮感兴趣<br>
+                        <span class="highlight">那不如自己用AI做一个！</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">🌌 实践二：宇宙星云系统</div>
+                    <div class="card-content">
+                        既然能通过vibe coding发布小游戏<br>
+                        能不能做更复杂好玩的东西？<br>
+                        <span class="highlight">12万+粒子的顶级星空效果！</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: 实践一：答案之书 -->
+        <div class="slide" data-slide="15">
+            <h2 class="section-title">📖 我的第一个小实践：答案之书</h2>
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-title">项目背景</div>
+                    <div class="card-content">
+                        逛书店时看到答案之书<br>
+                        自己觉得没必要买<br>
+                        但是也蛮感兴趣的<br>
+                        <span class="highlight">那不如自己用AI做一个！</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">技术实现</div>
+                    <div class="card-content">
+                        <span class="highlight">Skill + Prompt Engineering</span><br>
+                        用Skill定义翻页流程<br>
+                        用Prompt控制答案风格和内容
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">学到了什么？</div>
+                    <div class="card-content">
+                        AI非常懂技术，有好想法尽管找它落地<br>
+                        Vibe Coding并不难，人人都可以用<br>
+                        <span class="highlight">产品经理要懂技术原理，结合用户需求，高效构建产品</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: 实践二：宇宙星云系统 -->
+        <div class="slide" data-slide="16">
+            <h2 class="section-title">🌌 我的第二个小实践：宇宙星云系统</h2>
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-title">项目背景</div>
+                    <div class="card-content">
+                        既然能通过vibe coding发布网页小游戏<br>
+                        能不能做更复杂好玩的东西？<br>
+                        <span class="highlight">12万+粒子的顶级星空效果！</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">技术实现</div>
+                    <div class="card-content">
+                        <span class="highlight">Three.js + MediaPipe</span><br>
+                        纯原生JS、HTML、CSS<br>
+                        没有复杂的框架<br>
+                        Vibe Coding开发模式
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://vast-cobras-sell.loca.lt/nebula.html', '_blank')" style="cursor: pointer;">
+                    <div class="card-title">最终效果 →</div>
+                    <div class="card-content">
+                        背景星空：30,000颗<br>
+                        核心星云：25,000颗<br>
+                        内层星云：20,000颗<br>
+                        外层星云：15,000颗<br>
+                        星环粒子：22,000颗<br>
+                        <span class="highlight">总计：12万+粒子</span><br><br>
+                        <span style="color: #00ffff; font-size: 0.9rem;">👆 点击跳转体验</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: 实践二：学到了什么 -->
+        <div class="slide" data-slide="17">
+            <h2 class="section-title">💡 宇宙星云系统：学到了什么</h2>
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-title">关于Vibe Coding</div>
+                    <div class="card-content">
+                        用自然语言描述需求<br>
+                        AI生成代码，迭代优化<br>
+                        <span class="highlight">创意比技术更重要</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">关于AI产品</div>
+                    <div class="card-content">
+                        从简单需求开始<br>
+                        快速迭代，持续优化<br>
+                        <span class="highlight">用户体验是关键</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">关于自己</div>
+                    <div class="card-content">
+                        不要害怕技术<br>
+                        AI是最好的助手<br>
+                        <span class="highlight">动手做就是最好的学习</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: 第四部分：总结 -->
+        <div class="slide" data-slide="18">
+            <h2 class="section-title">🎉 第四部分：总结</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-number">💡</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">概念都是中间产物</div>
+                        <div class="timeline-desc">技术发展过程中的过渡形态，不用太焦虑</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">🎯</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">实践出真知</div>
+                        <div class="timeline-desc">从概念到实践，动手做才是硬道理</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">🚀</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">产品思维</div>
+                        <div class="timeline-desc">对用户真实诉求的洞察，以及好的创意，很重要</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" onclick="prevSlide()">← 上一页</button>
+            <button class="nav-button" onclick="nextSlide()">下一页 →</button>
+        </div>
+
+        <div class="slide-indicator" id="slide-indicator">1 / 18</div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 18;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (n > totalSlides) currentSlide = 1;
+            if (n < 1) currentSlide = totalSlides;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('slide-indicator').textContent = `${currentSlide} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide += 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide -= 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Initialize
+        showSlide(1);
+    </script>
+</body>
+</html>
